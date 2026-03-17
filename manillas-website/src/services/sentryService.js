@@ -158,7 +158,7 @@ export const withSentryErrorBoundary = async (Component) => {
     if (!sentry) return Component
 
     return sentry.withErrorBoundary(Component, {
-      fallback: <div>An error has occurred</div>,
+      fallback: 'An error has occurred',
       showDialog: false,
     })
   } catch (err) {
@@ -173,5 +173,5 @@ export default {
   captureMessage,
   setUserContext,
   addBreadcrumb,
-  withSentryErrorBoundary,
+  withSentryErrorBoundary
 }
