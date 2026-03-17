@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">M</span>
               </div>
-              <h3 className="text-lg font-bold text-primary-500">Manillas Premium</h3>
+              <h3 className="text-lg font-bold text-primary-500">Moriah</h3>
             </div>
             <p className="text-gray-100 text-sm">
               Artesanía de calidad premium para tu estilo personal
@@ -120,7 +120,7 @@ export default function Footer() {
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-200 text-sm">
-              &copy; {currentYear} Manillas Premium. Todos los derechos reservados.
+              &copy; {currentYear} Moriah. Todos los derechos reservados.
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-200 hover:text-primary-500 transition-colors">

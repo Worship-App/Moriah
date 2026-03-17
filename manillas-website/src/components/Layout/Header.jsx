@@ -18,7 +18,7 @@ export default function Header() {
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">M</span>
               </div>
-              <h1 className="text-2xl font-bold text-primary hidden sm:block">Manillas</h1>
+              <h1 className="text-2xl font-bold text-primary hidden sm:block">Moriah</h1>
             </a>
           </div>
 

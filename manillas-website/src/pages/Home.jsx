@@ -45,7 +45,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in">
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 leading-tight">
-              Manillas <span className="text-primary-500">Premium</span>
+              Moriah <span className="text-primary-500">Premium</span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-accent-200 mb-8 max-w-3xl mx-auto leading-relaxed">
               Descubre nuestra colección exclusiva de manillas artesanales de alta calidad, diseñadas para reflejar tu estilo único
