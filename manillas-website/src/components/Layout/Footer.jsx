@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">M</span>
               </div>
-              <h3 className="text-lg font-bold text-white">Manillas Premium</h3>
+              <h3 className="text-lg font-bold text-primary-500">Manillas Premium</h3>
             </div>
             <p className="text-gray-100 text-sm">
               Artesanía de calidad premium para tu estilo personal
@@ -29,7 +29,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-white">Enlaces Rápidos</h3>
+            <h3 className="text-lg font-bold mb-4 text-primary-500">Enlaces Rápidos</h3>
             <ul className="space-y-2">
               <li>
                 <a href="/" className="text-gray-100 hover:text-primary-500 transition-colors">
@@ -56,7 +56,7 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-white">Contacto</h3>
+            <h3 className="text-lg font-bold mb-4 text-primary-500">Contacto</h3>
             <ul className="space-y-2 mb-4">
               <li>
                 <a
