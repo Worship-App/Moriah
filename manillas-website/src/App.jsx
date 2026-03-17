@@ -11,7 +11,7 @@ import NotFound from './pages/NotFound'
 function App() {
   return (
     <ErrorBoundary>
-      <Router>
+      <Router basename="/Moriah">
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
