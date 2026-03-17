@@ -1,4 +1,4 @@
-import config from '../config/env'
+import config from '../../config/env'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
