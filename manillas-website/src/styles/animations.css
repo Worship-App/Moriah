@@ -286,3 +286,17 @@
   transition: all var(--transition-slow);
 }
 
+/* ===== LOADING BAR ANIMATION ===== */
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.animate-loading-bar {
+  animation: loadingBar 1.5s ease-in-out infinite;
+}
+
