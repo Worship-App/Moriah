@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import ContactForm from '../components/Forms/ContactForm'
 import ContactChannels from '../components/Contact/ContactChannels'
 import { analyticsService } from '../services/analyticsService'
+import config from '../config/env'
 
 export default function Contact() {
   useEffect(() => {
@@ -160,7 +161,7 @@ export default function Contact() {
               Enviar Mensaje
             </a>
             <a
-              href={`https://wa.me/${import.meta.env.VITE_BUSINESS_WHATSAPP?.replace(/\D/g, '')}`}
+              href={`https://wa.me/${config.businessWhatsapp.replace(/\D/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition-colors"

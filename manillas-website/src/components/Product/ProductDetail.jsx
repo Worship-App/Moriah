@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatters } from '../../utils/formatters'
 import ProductGallery from './ProductGallery'
+import config from '../../config/env'
 
 /**
  * ProductDetail Component
@@ -22,8 +23,8 @@ export default function ProductDetail({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const isOutOfStock = !product.availability.inStock
 
-  const whatsappUrl = `https://wa.me/${import.meta.env.VITE_BUSINESS_WHATSAPP}?text=Hola, me interesa el producto: ${product.name}`
-  const emailUrl = `mailto:${import.meta.env.VITE_BUSINESS_EMAIL}?subject=Consulta sobre: ${product.name}`
+  const whatsappUrl = `https://wa.me/${config.businessWhatsapp.replace(/\D/g, '')}?text=Hola, me interesa el producto: ${product.name}`
+  const emailUrl = `mailto:${config.businessEmail}?subject=Consulta sobre: ${product.name}`
 
   return (
     <div className="bg-accent-50 min-h-screen py-8 md:py-12 lg:py-16">

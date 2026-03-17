@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import config from '../../config/env'
 
 /**
  * ContactChannels Component
@@ -6,12 +7,12 @@ import { useEffect } from 'react'
  * All links open in new tabs with proper security attributes
  */
 export default function ContactChannels({
-  businessEmail = import.meta.env.VITE_BUSINESS_EMAIL,
-  businessWhatsapp = import.meta.env.VITE_BUSINESS_WHATSAPP,
-  instagramUrl = import.meta.env.VITE_INSTAGRAM_URL,
-  facebookUrl = import.meta.env.VITE_FACEBOOK_URL,
-  tiktokUrl = import.meta.env.VITE_TIKTOK_URL,
-  linkedinUrl = import.meta.env.VITE_LINKEDIN_URL,
+  businessEmail = config.businessEmail,
+  businessWhatsapp = config.businessWhatsapp,
+  instagramUrl = config.instagramUrl,
+  facebookUrl = config.facebookUrl,
+  tiktokUrl = config.tiktokUrl,
+  linkedinUrl = config.linkedinUrl,
 } = {}) {
 
   // Format WhatsApp number: remove all non-digits and ensure international format

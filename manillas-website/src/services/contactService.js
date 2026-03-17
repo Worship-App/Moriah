@@ -3,6 +3,8 @@
  * Handles all contact-related API calls
  */
 
+import config from '../config/env'
+
 const MAX_RETRIES = 3
 const INITIAL_RETRY_DELAY = 1000 // 1 second
 
@@ -48,7 +50,7 @@ const validateContactData = (data) => {
  */
 const sendWithRetry = async (data, attempt = 1) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
+    const response = await fetch(`${config.apiUrl}/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

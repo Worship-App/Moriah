@@ -1,11 +1,13 @@
+import config from '../config/env'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
-  const businessEmail = import.meta.env.VITE_BUSINESS_EMAIL
-  const businessWhatsapp = import.meta.env.VITE_BUSINESS_WHATSAPP
-  const instagramUrl = import.meta.env.VITE_INSTAGRAM_URL
-  const facebookUrl = import.meta.env.VITE_FACEBOOK_URL
-  const tiktokUrl = import.meta.env.VITE_TIKTOK_URL
-  const linkedinUrl = import.meta.env.VITE_LINKEDIN_URL
+  const businessEmail = config.businessEmail
+  const businessWhatsapp = config.businessWhatsapp
+  const instagramUrl = config.instagramUrl
+  const facebookUrl = config.facebookUrl
+  const tiktokUrl = config.tiktokUrl
+  const linkedinUrl = config.linkedinUrl
 
   return (
     <footer className="bg-primary text-white">

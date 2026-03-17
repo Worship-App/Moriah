@@ -4,6 +4,8 @@
  * Handles error tracking and monitoring for the application
  */
 
+import config from '../config/env'
+
 let Sentry = null
 let BrowserTracing = null
 
@@ -29,7 +31,7 @@ export const initSentry = async () => {
     const sentry = await loadSentry()
     if (!sentry) return
 
-    const dsn = import.meta.env.VITE_SENTRY_DSN
+    const dsn = config.sentryDsn
     
     // Only initialize if DSN is provided
     if (!dsn) {
@@ -39,7 +41,7 @@ export const initSentry = async () => {
 
     sentry.init({
       dsn,
-      environment: import.meta.env.MODE,
+      environment: config.environment,
       integrations: [
         new BrowserTracing(),
         new sentry.Replay({
@@ -48,12 +50,12 @@ export const initSentry = async () => {
         }),
       ],
       // Performance Monitoring
-      tracesSampleRate: import.meta.env.MODE === 'production' ? 0.1 : 1.0,
+      tracesSampleRate: config.isProduction ? 0.1 : 1.0,
       // Session Replay
       replaysSessionSampleRate: 0.1,
       replaysOnErrorSampleRate: 1.0,
       // Release tracking
-      release: import.meta.env.VITE_APP_VERSION || '0.1.0',
+      release: config.appVersion,
     })
   } catch (error) {
     console.warn('Failed to initialize Sentry:', error)
