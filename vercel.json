@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd manillas-website && npm run build",
+  "outputDirectory": "manillas-website/dist",
+  "framework": "vite"
+}
