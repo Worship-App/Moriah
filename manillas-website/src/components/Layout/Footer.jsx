@@ -10,15 +10,15 @@ export default function Footer() {
   const linkedinUrl = config.linkedinUrl
 
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-secondary-900 text-white">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">M</span>
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">M</span>
               </div>
               <h3 className="text-lg font-bold text-white">Manillas Premium</h3>
             </div>
@@ -32,22 +32,22 @@ export default function Footer() {
             <h3 className="text-lg font-bold mb-4 text-white">Enlaces Rápidos</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/" className="text-gray-100 hover:text-secondary transition-colors">
+                <a href="/" className="text-gray-100 hover:text-primary-500 transition-colors">
                   Inicio
                 </a>
               </li>
               <li>
-                <a href="/catalog" className="text-gray-100 hover:text-secondary transition-colors">
+                <a href="/catalog" className="text-gray-100 hover:text-primary-500 transition-colors">
                   Catálogo
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-gray-100 hover:text-secondary transition-colors">
+                <a href="/about" className="text-gray-100 hover:text-primary-500 transition-colors">
                   Sobre Nosotros
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-gray-100 hover:text-secondary transition-colors">
+                <a href="/contact" className="text-gray-100 hover:text-primary-500 transition-colors">
                   Contacto
                 </a>
               </li>
@@ -61,7 +61,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${businessEmail}`}
-                  className="text-gray-100 hover:text-secondary transition-colors text-sm"
+                  className="text-gray-100 hover:text-primary-500 transition-colors text-sm"
                 >
                   {businessEmail}
                 </a>
@@ -69,7 +69,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`https://wa.me/${businessWhatsapp.replace(/\D/g, '')}`}
-                  className="text-gray-100 hover:text-secondary transition-colors text-sm"
+                  className="text-gray-100 hover:text-primary-500 transition-colors text-sm"
                 >
                   WhatsApp: {businessWhatsapp}
                 </a>
@@ -80,7 +80,7 @@ export default function Footer() {
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-secondary transition-colors"
+                className="hover:text-primary-500 transition-colors"
                 aria-label="Instagram"
               >
                 📷
@@ -89,7 +89,7 @@ export default function Footer() {
                 href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-secondary transition-colors"
+                className="hover:text-primary-500 transition-colors"
                 aria-label="Facebook"
               >
                 👍
@@ -98,7 +98,7 @@ export default function Footer() {
                 href={tiktokUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-secondary transition-colors"
+                className="hover:text-primary-500 transition-colors"
                 aria-label="TikTok"
               >
                 🎵
@@ -107,7 +107,7 @@ export default function Footer() {
                 href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-secondary transition-colors"
+                className="hover:text-primary-500 transition-colors"
                 aria-label="LinkedIn"
               >
                 💼
@@ -117,16 +117,16 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-600 pt-8">
+        <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-200 text-sm">
               &copy; {currentYear} Manillas Premium. Todos los derechos reservados.
             </p>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="text-gray-200 hover:text-secondary transition-colors">
+              <a href="#" className="text-gray-200 hover:text-primary-500 transition-colors">
                 Política de Privacidad
               </a>
-              <a href="#" className="text-gray-200 hover:text-secondary transition-colors">
+              <a href="#" className="text-gray-200 hover:text-primary-500 transition-colors">
                 Términos de Servicio
               </a>
             </div>
