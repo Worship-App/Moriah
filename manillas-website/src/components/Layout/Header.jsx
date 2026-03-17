@@ -9,20 +9,20 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <header className="bg-gradient-to-r from-white via-amber-50/30 to-white backdrop-blur-md shadow-xl sticky top-0 z-50 border-b-2 border-amber-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
+          {/* Logo con diseño premium dorado */}
           <div className="flex-shrink-0">
             <a href="/" className="flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-primary-500/50 transition-all duration-300 group-hover:scale-105">
-                <span className="text-white font-bold text-xl">M</span>
+              <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-2xl group-hover:shadow-amber-500/60 transition-all duration-300 group-hover:scale-110 border-2 border-amber-300" style={{ boxShadow: '0 10px 30px rgba(245, 158, 11, 0.4)' }}>
+                <span className="text-white font-bold text-2xl drop-shadow-lg">M</span>
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-secondary-900 to-secondary-700">
+                <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 via-amber-600 to-yellow-700">
                   Moriah
                 </h1>
-                <p className="text-xs text-primary-600 font-medium">Premium Collection</p>
+                <p className="text-xs font-bold text-amber-600">✨ Premium Collection</p>
               </div>
             </a>
           </div>
@@ -32,15 +32,15 @@ export default function Header() {
             <Navigation />
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button con diseño dorado */}
           <button
-            className="md:hidden p-3 rounded-xl hover:bg-primary-50 transition-all duration-300 group"
+            className="md:hidden p-3 rounded-xl bg-gradient-to-br from-amber-50 to-yellow-50 hover:from-amber-100 hover:to-yellow-100 border-2 border-amber-300 transition-all duration-300 group shadow-lg hover:shadow-xl"
             onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
           >
             <svg
-              className={`w-6 h-6 text-secondary-900 group-hover:text-primary-600 transition-all duration-300 ${
+              className={`w-6 h-6 text-amber-700 group-hover:text-amber-800 transition-all duration-300 ${
                 isMenuOpen ? 'rotate-90' : ''
               }`}
               fill="none"
@@ -57,9 +57,9 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation con fondo premium */}
         {isMenuOpen && (
-          <nav className="md:hidden pb-6 pt-4 border-t border-gray-100 animate-fade-in">
+          <nav className="md:hidden pb-6 pt-4 border-t-2 border-amber-200 bg-gradient-to-b from-amber-50/50 to-white animate-fade-in">
             <Navigation />
           </nav>
         )}
