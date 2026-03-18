@@ -31,7 +31,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-accent-50">
+    <div className="min-h-screen bg-accent-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Hero Banner - Premium Design */}
       <section className="relative overflow-hidden bg-gradient-to-br from-secondary-900 via-secondary-800 to-black text-white py-24 sm:py-32 md:py-40">
         {/* Animated background pattern */}
@@ -97,7 +97,7 @@ export default function Home() {
       </section>
 
       {/* About Section - Brief Description */}
-      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
@@ -105,16 +105,16 @@ export default function Home() {
               <div className="inline-block mb-4 px-4 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">
                 Sobre Nosotros
               </div>
-              <h2 className="text-4xl sm:text-5xl font-bold text-secondary-900 mb-6">
+              <h2 className="text-4xl sm:text-5xl font-bold text-secondary-900 dark:text-white mb-6 transition-colors duration-300">
                 Artesanía que{' '}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-600">
                   Inspira
                 </span>
               </h2>
-              <p className="text-lg text-secondary-600 mb-4 leading-relaxed">
+              <p className="text-lg text-secondary-600 dark:text-gray-300 mb-4 leading-relaxed transition-colors duration-300">
                 Somos un emprendimiento dedicado a la creación de manillas artesanales de alta calidad. Cada pieza es diseñada y elaborada con cuidado meticuloso para garantizar la máxima satisfacción de nuestros clientes.
               </p>
-              <p className="text-lg text-secondary-600 mb-8 leading-relaxed">
+              <p className="text-lg text-secondary-600 dark:text-gray-300 mb-8 leading-relaxed transition-colors duration-300">
                 Nuestro compromiso es ofrecer productos premium que reflejen tu estilo y personalidad, combinando diseño elegante con materiales de primera calidad.
               </p>
               <Button 
@@ -136,11 +136,11 @@ export default function Home() {
             <div className="animate-slide-in-right">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-300" />
-                <div className="relative bg-gradient-to-br from-white to-gray-50 rounded-3xl p-12 shadow-2xl border border-gray-100 group-hover:shadow-primary-500/20 transition-all duration-300">
+                <div className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-3xl p-12 shadow-2xl border border-gray-100 dark:border-gray-700 group-hover:shadow-primary-500/20 transition-all duration-300">
                   <div className="text-center">
                     <div className="text-7xl mb-6 transform group-hover:scale-110 transition-transform duration-300">✨</div>
-                    <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-secondary-900 to-secondary-700 mb-3">Calidad Premium</h3>
-                    <p className="text-secondary-600 text-lg">Diseño artesanal con materiales de primera calidad</p>
+                    <h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-secondary-900 to-secondary-700 dark:from-amber-400 dark:to-yellow-500 mb-3">Calidad Premium</h3>
+                    <p className="text-secondary-600 dark:text-gray-300 text-lg transition-colors duration-300">Diseño artesanal con materiales de primera calidad</p>
                     <div className="mt-6 flex justify-center gap-4">
                       <div className="w-12 h-1 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full" />
                     </div>
@@ -153,14 +153,14 @@ export default function Home() {
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-accent-50">
+      <section className="py-16 sm:py-20 md:py-24 bg-accent-50 dark:bg-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl sm:text-5xl font-bold text-secondary-900 mb-4">
+            <h2 className="text-4xl sm:text-5xl font-bold text-secondary-900 dark:text-white mb-4 transition-colors duration-300">
               Productos <span className="text-primary-500">Destacados</span>
             </h2>
-            <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
+            <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300">
               Explora nuestra selección de manillas premium, cuidadosamente elegidas para ti
             </p>
           </div>
@@ -197,7 +197,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
+      <section className="py-16 sm:py-20 md:py-24 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-full h-full opacity-5">
           <div className="absolute top-10 left-10 w-72 h-72 bg-primary-500 rounded-full filter blur-3xl" />
@@ -206,48 +206,48 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-block mb-4 px-4 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold">
+            <div className="inline-block mb-4 px-4 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-full text-sm font-semibold transition-colors duration-300">
               Nuestras Ventajas
             </div>
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-              <span className="text-secondary-900">¿Por Qué</span>{' '}
+              <span className="text-secondary-900 dark:text-white transition-colors duration-300">¿Por Qué</span>{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-600">
                 Elegirnos?
               </span>
             </h2>
-            <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
+            <p className="text-lg text-secondary-600 dark:text-gray-300 max-w-2xl mx-auto transition-colors duration-300">
               Descubre lo que nos hace únicos en el mundo de las manillas artesanales
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
                 <div className="text-5xl">🎨</div>
               </div>
-              <h3 className="text-2xl font-bold text-secondary-900 mb-3">Diseño Exclusivo</h3>
-              <p className="text-secondary-600 leading-relaxed">Cada manilla es diseñada con atención al detalle y creatividad artesanal</p>
+              <h3 className="text-2xl font-bold text-secondary-900 dark:text-white mb-3 transition-colors duration-300">Diseño Exclusivo</h3>
+              <p className="text-secondary-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">Cada manilla es diseñada con atención al detalle y creatividad artesanal</p>
               <div className="mt-6 w-16 h-1 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mx-auto" />
             </div>
 
             {/* Feature 2 */}
-            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100" style={{ animationDelay: '100ms' }}>
-              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700" style={{ animationDelay: '100ms' }}>
+              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
                 <div className="text-5xl">💎</div>
               </div>
-              <h3 className="text-2xl font-bold text-secondary-900 mb-3">Materiales Premium</h3>
-              <p className="text-secondary-600 leading-relaxed">Utilizamos solo materiales de primera calidad para garantizar durabilidad</p>
+              <h3 className="text-2xl font-bold text-secondary-900 dark:text-white mb-3 transition-colors duration-300">Materiales Premium</h3>
+              <p className="text-secondary-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">Utilizamos solo materiales de primera calidad para garantizar durabilidad</p>
               <div className="mt-6 w-16 h-1 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mx-auto" />
             </div>
 
             {/* Feature 3 */}
-            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100" style={{ animationDelay: '200ms' }}>
-              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+            <div className="group animate-slide-in-up text-center p-8 rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700" style={{ animationDelay: '200ms' }}>
+              <div className="inline-block p-4 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/30 dark:to-primary-800/30 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
                 <div className="text-5xl">🤝</div>
               </div>
-              <h3 className="text-2xl font-bold text-secondary-900 mb-3">Atención Personalizada</h3>
-              <p className="text-secondary-600 leading-relaxed">Estamos aquí para ayudarte a encontrar la manilla perfecta para ti</p>
+              <h3 className="text-2xl font-bold text-secondary-900 dark:text-white mb-3 transition-colors duration-300">Atención Personalizada</h3>
+              <p className="text-secondary-600 dark:text-gray-300 leading-relaxed transition-colors duration-300">Estamos aquí para ayudarte a encontrar la manilla perfecta para ti</p>
               <div className="mt-6 w-16 h-1 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mx-auto" />
             </div>
           </div>

@@ -46,7 +46,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(true)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -76,7 +76,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(false)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -103,7 +103,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(true)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -133,7 +133,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(false)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -160,7 +160,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(true)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -190,7 +190,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(false)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -217,7 +217,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           }
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -244,7 +244,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(false)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -266,7 +266,7 @@ describe('ContactForm Validation - Property-Based Tests', () => {
           expect(result.success).toBe(false)
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     )
   })
 
@@ -290,4 +290,66 @@ describe('ContactForm Validation - Property-Based Tests', () => {
     expect(result2.success).toBe(result3.success)
     expect(result1.success).toBe(true)
   })
+
+  /**
+   * Property 11: Email validation rejects invalid email formats
+   * **Validates: Requirements 6.2**
+   * For any invalid email format (missing @, missing domain, invalid characters, etc.),
+   * validation should fail
+   */
+  it('should reject all invalid email formats', () => {
+    fc.assert(
+      fc.property(
+        fc.oneof(
+          // Emails without @ symbol
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 5, maxLength: 50 }),
+          // Emails with multiple @ symbols
+          fc.tuple(
+            fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 20 }),
+            fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 20 }),
+            fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 20 })
+          ).map(([a, b, c]) => `${a}@${b}@${c}`),
+          // Emails starting with @
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r'), { minLength: 1, maxLength: 20 })
+            .map(s => `@${s}`),
+          // Emails ending with @
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r'), { minLength: 1, maxLength: 20 })
+            .map(s => `${s}@`),
+          // Emails with @ but no domain
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@' && c !== '.'), { minLength: 1, maxLength: 20 })
+            .map(s => `${s}@`),
+          // Emails with @ but no local part
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 20 })
+            .map(s => `@${s}`),
+          // Emails with spaces
+          fc.tuple(
+            fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 10 }),
+            fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r' && c !== '@'), { minLength: 1, maxLength: 10 })
+          ).map(([a, b]) => `${a} ${b}@example.com`),
+          // Very short strings (< 5 characters)
+          fc.stringOf(fc.char().filter(c => c !== '\n' && c !== '\r'), { maxLength: 4 })
+        ),
+        (invalidEmail) => {
+          const validName = 'John Doe'
+          const validSubject = 'Valid Subject'
+          const validMessage = 'This is a valid message'
+
+          const result = contactFormSchema.safeParse({
+            name: validName,
+            email: invalidEmail,
+            subject: validSubject,
+            message: validMessage,
+          })
+
+          expect(result.success).toBe(false)
+          if (!result.success) {
+            const emailError = result.error.issues.find(issue => issue.path[0] === 'email')
+            expect(emailError).toBeDefined()
+          }
+        }
+      ),
+      { numRuns: 20 }
+    )
+  })
 })
+

@@ -1,0 +1,385 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Job 1: Run tests and linting
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: manillas-website/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./manillas-website
+        run: npm ci
+      
+      - name: Run linter
+        working-directory: ./manillas-website
+        run: npm run lint
+      
+      - name: Run tests
+        working-directory: ./manillas-website
+        run: npm run test -- --run
+        env:
+          CI: true
+      
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-coverage
+          path: manillas-website/coverage/
+          retention-days: 7
+
+  # Job 2: Build the application
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: manillas-website/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./manillas-website
+        run: npm ci
+      
+      - name: Build application
+        working-directory: ./manillas-website
+        run: npm run build
+        env:
+          CI: true
+      
+      - name: Analyze build size
+        working-directory: ./manillas-website
+        run: |
+          echo "📦 Build Size Analysis"
+          echo "====================="
+          du -sh dist/
+          echo ""
+          echo "📄 Individual Files:"
+          find dist -type f -exec du -h {} \; | sort -rh | head -20
+      
+      - name: Verify build output
+        working-directory: ./manillas-website
+        run: |
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ Error: index.html not found in build output"
+            exit 1
+          fi
+          echo "✅ Build verification passed"
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: manillas-website/dist/
+          retention-days: 7
+
+  # Job 3: Deploy to staging (on develop branch)
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.preview-url }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: manillas-website/dist/
+      
+      - name: Deploy to Vercel (Staging)
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./manillas-website
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+          alias-domains: staging-manillas.vercel.app
+        env:
+          # Staging environment variables
+          VITE_API_URL: ${{ secrets.STAGING_API_URL || 'https://api-staging.example.com' }}
+          VITE_ENVIRONMENT: staging
+          VITE_ENABLE_ANALYTICS: false
+      
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Staging Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.deploy.outputs.preview-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "- Integration tests will run automatically" >> $GITHUB_STEP_SUMMARY
+          echo "- Review the staging site before merging to main" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Comment PR with staging URL
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 Staging deployment ready at: ${{ steps.deploy.outputs.preview-url }}'
+            })
+      
+      - name: Notify deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: status,
+              target_url: '${{ steps.deploy.outputs.preview-url }}',
+              description: 'Staging deployment ' + status,
+              context: 'deployment/staging'
+            })
+
+  # Job 4: Deploy to production (on main branch)
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: manillas-website/dist/
+      
+      - name: Deploy to Vercel (Production)
+        id: deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./manillas-website
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+        env:
+          # Production environment variables
+          VITE_API_URL: ${{ secrets.PRODUCTION_API_URL || 'https://api.manillas-premium.com' }}
+          VITE_ENVIRONMENT: production
+          VITE_ENABLE_ANALYTICS: true
+          VITE_GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
+          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          VITE_CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
+          VITE_WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
+      
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Production Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed at:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Analytics enabled" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Error tracking enabled (Sentry)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Production API configured" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Post-Deployment Checklist" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] Verify site is accessible" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] Check analytics tracking" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] Test contact form" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] Verify product catalog loads" >> $GITHUB_STEP_SUMMARY
+          echo "- [ ] Monitor error tracking dashboard" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Create deployment notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              target_url: '${{ steps.deploy.outputs.url }}',
+              description: 'Production deployment successful',
+              context: 'deployment/production'
+            })
+      
+      - name: Notify deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}';
+            const emoji = status === 'success' ? '✅' : '❌';
+            const message = `${emoji} Production Deployment ${status === 'success' ? 'Successful' : 'Failed'}
+            
+            **Environment:** Production
+            **URL:** ${{ steps.deploy.outputs.url }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **Status:** ${status}
+            
+            ${status === 'success' ? '🎉 The site is now live in production!' : '⚠️ Deployment failed. Please check the logs.'}`;
+            
+            // Create a comment on the commit
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: message
+            })
+      
+      - name: Verify production deployment
+        if: success()
+        run: |
+          echo "🔍 Verifying production deployment..."
+          
+          # Wait for deployment to be fully available
+          sleep 10
+          
+          # Check if the site is accessible
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.url }}")
+          
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Production site is accessible (HTTP $RESPONSE)"
+          else
+            echo "⚠️ Warning: Production site returned HTTP $RESPONSE"
+            exit 1
+          fi
+      
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'failure',
+              description: 'Production deployment failed',
+              context: 'deployment/production'
+            })
+            
+            // Create an issue for failed deployment
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Production Deployment Failed',
+              body: `Production deployment failed for commit ${context.sha}
+              
+              **Branch:** ${{ github.ref_name }}
+              **Workflow:** ${{ github.workflow }}
+              **Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+              
+              Please investigate and resolve the issue.`,
+              labels: ['deployment', 'production', 'urgent']
+            })
+
+  # Job 5: Run integration tests on staging
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: manillas-website/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./manillas-website
+        run: npm ci
+      
+      - name: Run integration tests
+        working-directory: ./manillas-website
+        run: npm run test -- --run
+        env:
+          CI: true
+          TEST_URL: ${{ needs.deploy-staging.outputs.preview-url }}
+          VITE_ENVIRONMENT: staging
+      
+      - name: Create test summary
+        if: always()
+        run: |
+          echo "## 🧪 Integration Tests Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** Staging" >> $GITHUB_STEP_SUMMARY
+          echo "**Test URL:** ${{ needs.deploy-staging.outputs.preview-url }}" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Report test results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}' === 'success' ? 'success' : 'failure';
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: status,
+              description: 'Integration tests ' + status,
+              context: 'tests/integration'
+            })

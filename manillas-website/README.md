@@ -36,9 +36,31 @@ npm run build
 ## Testing
 
 ```bash
+# Run all tests
 npm run test
+
+# Run tests with UI
 npm run test:ui
+
+# Run only property-based tests
+npm test -- --grep "Property-Based Tests"
+
+# Run specific test file
+npm test src/services/productService.pbt.test.js
 ```
+
+### Testing Strategy
+
+This project uses a comprehensive testing approach:
+
+- **Unit Tests** - Test individual components and functions (`.test.js` files)
+- **Property-Based Tests** - Test universal properties with fast-check (`.pbt.test.js` files)
+- **Integration Tests** - Test component interactions
+
+**Documentation:**
+- [Property-Based Testing Guide](./docs/PROPERTY_BASED_TESTING.md) - Complete guide
+- [Quick Start PBT](./docs/QUICK_START_PBT.md) - Quick reference
+- [Test Configuration](./src/test/README.md) - Setup details
 
 ## Estructura del Proyecto
 

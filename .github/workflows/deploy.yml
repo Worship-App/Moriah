@@ -31,6 +31,10 @@ jobs:
         run: npm ci
         working-directory: manillas-website
 
+      - name: Run tests
+        run: npm test -- --run
+        working-directory: manillas-website
+
       - name: Build
         run: npm run build
         working-directory: manillas-website

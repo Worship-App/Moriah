@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
         to={`/product/${product.id}`}
         className="group block h-full"
       >
-        <div className="h-full bg-gradient-to-br from-white to-amber-50/30 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 flex flex-col border-2 border-amber-200 hover:border-amber-400 transform hover:-translate-y-2">
+        <div className="h-full bg-gradient-to-br from-white to-amber-50/30 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 flex flex-col border-2 border-amber-200 dark:border-amber-600/30 hover:border-amber-400 dark:hover:border-amber-500 transform hover:-translate-y-2">
           {/* Image Container con efecto premium */}
           <div className="relative overflow-hidden bg-gradient-to-br from-gray-100 to-amber-50 h-56 sm:h-64 md:h-72">
             <img
