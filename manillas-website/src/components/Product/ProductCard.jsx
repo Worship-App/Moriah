@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import { ShoppingCart } from 'lucide-react'
 import { formatters } from '../../utils/formatters'
+import useCartStore from '../../store/cartStore'
 
 /**
  * ProductCard Component
@@ -16,7 +18,23 @@ import { formatters } from '../../utils/formatters'
  * - Full responsiveness (mobile, tablet, desktop)
  */
 export default function ProductCard({ product }) {
+  const { addItem } = useCartStore()
   const isOutOfStock = !product.availability.inStock
+
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    const productToAdd = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images.thumbnail,
+      currency: product.currency
+    }
+    
+    addItem(productToAdd)
+  }
 
   return (
     <div className="animate-fade-in">
@@ -78,17 +96,28 @@ export default function ProductCard({ product }) {
               </span>
             </div>
 
-            {/* View Details Button con diseño dorado premium */}
-            <button
-              className={`w-full py-3 sm:py-3.5 px-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 ${
-                isOutOfStock
-                  ? 'bg-gray-300 text-gray-600 cursor-not-allowed opacity-75'
-                  : 'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-lg hover:shadow-xl hover:shadow-amber-500/50 active:scale-95 transform hover:scale-105 border-2 border-amber-400'
-              }`}
-              disabled={isOutOfStock}
-            >
-              {isOutOfStock ? 'No Disponible' : '✨ Ver Detalles'}
-            </button>
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                className={`flex-1 py-3 sm:py-3.5 px-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center gap-2 ${
+                  isOutOfStock
+                    ? 'bg-gray-300 text-gray-600 cursor-not-allowed opacity-75'
+                    : 'bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-lg hover:shadow-xl hover:shadow-amber-500/50 active:scale-95 transform hover:scale-105 border-2 border-amber-400'
+                }`}
+              >
+                <ShoppingCart className="w-4 h-4" />
+                {isOutOfStock ? 'Agotado' : 'Agregar'}
+              </button>
+              
+              <Link
+                to={`/product/${product.id}`}
+                className="flex-1 py-3 sm:py-3.5 px-4 rounded-xl font-bold text-sm sm:text-base bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white shadow-lg hover:shadow-xl active:scale-95 transform hover:scale-105 border-2 border-gray-400 text-center transition-all duration-300"
+              >
+                Ver Detalles
+              </Link>
+            </div>
           </div>
         </div>
       </Link>

@@ -3,26 +3,26 @@
  */
 
 export const PRODUCT_TYPES = [
-  { value: 'pulsera', label: 'Pulsera' },
-  { value: 'brazalete', label: 'Brazalete' },
-  { value: 'anillo', label: 'Anillo' },
-  { value: 'collar', label: 'Collar' },
+  { value: 'pulsera', label: 'Pulsera', description: 'Pulseras delicadas y elegantes' },
+  { value: 'brazalete', label: 'Brazalete', description: 'Brazaletes anchos y statement' },
+  { value: 'anillo', label: 'Anillo', description: 'Anillos finos y modernos' },
+  { value: 'collar', label: 'Collar', description: 'Collares elegantes y versátiles' },
 ]
 
 export const COLORS = [
-  { value: 'dorado', label: 'Dorado' },
-  { value: 'plateado', label: 'Plateado' },
-  { value: 'cobre', label: 'Cobre' },
-  { value: 'negro', label: 'Negro' },
-  { value: 'blanco', label: 'Blanco' },
+  { value: 'dorado', label: 'Dorado', hex: '#FFD700' },
+  { value: 'plateado', label: 'Plateado', hex: '#C0C0C0' },
+  { value: 'cobre', label: 'Cobre', hex: '#B87333' },
+  { value: 'negro', label: 'Negro', hex: '#000000' },
+  { value: 'blanco', label: 'Blanco', hex: '#FFFFFF' },
 ]
 
 export const MATERIALS = [
-  { value: 'oro', label: 'Oro' },
-  { value: 'plata', label: 'Plata' },
-  { value: 'acero_inoxidable', label: 'Acero Inoxidable' },
-  { value: 'cobre', label: 'Cobre' },
-  { value: 'bronce', label: 'Bronce' },
+  { value: 'oro', label: 'Oro', description: 'Oro de alta pureza' },
+  { value: 'plata', label: 'Plata', description: 'Plata esterlina 925' },
+  { value: 'acero_inoxidable', label: 'Acero Inoxidable', description: 'Acero quirúrgico 316L' },
+  { value: 'cobre', label: 'Cobre', description: 'Cobre pulido' },
+  { value: 'bronce', label: 'Bronce', description: 'Bronce antiguo' },
 ]
 
 export const PRICE_RANGES = [

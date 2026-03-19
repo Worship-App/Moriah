@@ -1,13 +1,19 @@
 import { useState } from 'react'
+import { ShoppingCart } from 'lucide-react'
 import Navigation from './Navigation'
 import ThemeToggle from '../Common/ThemeToggle'
+import Cart from '../Cart/Cart'
+import useCartStore from '../../store/cartStore'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { toggleCart, getTotalItems } = useCartStore()
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+
+  const totalItems = getTotalItems()
 
   return (
     <header className="bg-gradient-to-r from-white via-amber-50/30 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b-2 border-amber-200 dark:border-amber-600/30 transition-colors duration-300">
@@ -34,15 +40,43 @@ export default function Header() {
               <Navigation />
             </nav>
             <ThemeToggle />
+            {/* Cart Button */}
+            <button
+              onClick={toggleCart}
+              className="relative p-3 rounded-xl bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-gray-700 dark:to-gray-800 hover:from-amber-100 hover:to-yellow-100 dark:hover:from-gray-600 dark:hover:to-gray-700 border-2 border-amber-300 dark:border-amber-600 transition-all duration-300 group shadow-lg hover:shadow-xl"
+              aria-label="Open cart"
+            >
+              <ShoppingCart className="w-6 h-6 text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-all duration-300" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
           </div>
 
           {/* Mobile Menu Button con diseño dorado */}
-          <button
-            className="md:hidden p-3 rounded-xl bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-gray-700 dark:to-gray-800 hover:from-amber-100 hover:to-yellow-100 dark:hover:from-gray-600 dark:hover:to-gray-700 border-2 border-amber-300 dark:border-amber-600 transition-all duration-300 group shadow-lg hover:shadow-xl"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
+          <div className="md:hidden flex items-center gap-3">
+            {/* Cart Button Mobile */}
+            <button
+              onClick={toggleCart}
+              className="relative p-2 rounded-lg bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-gray-700 dark:to-gray-800 hover:from-amber-100 hover:to-yellow-100 dark:hover:from-gray-600 dark:hover:to-gray-700 border-2 border-amber-300 dark:border-amber-600 transition-all duration-300 group shadow-lg hover:shadow-xl"
+              aria-label="Open cart"
+            >
+              <ShoppingCart className="w-5 h-5 text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-all duration-300" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+            
+            <button
+              className="p-3 rounded-xl bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-gray-700 dark:to-gray-800 hover:from-amber-100 hover:to-yellow-100 dark:hover:from-gray-600 dark:hover:to-gray-700 border-2 border-amber-300 dark:border-amber-600 transition-all duration-300 group shadow-lg hover:shadow-xl"
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              aria-expanded={isMenuOpen}
+            >
             <svg
               className={`w-6 h-6 text-amber-700 dark:text-amber-400 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-all duration-300 ${
                 isMenuOpen ? 'rotate-90' : ''
@@ -58,7 +92,8 @@ export default function Header() {
                 d={isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'}
               />
             </svg>
-          </button>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation con fondo premium */}
@@ -71,3 +106,6 @@ export default function Header() {
     </header>
   )
 }
+
+// Cart component should be rendered at the root level, not inside Header
+export { Cart } from '../Cart/Cart'
